@@ -7,7 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class ManagerTest {
 
@@ -22,17 +23,19 @@ public class ManagerTest {
     @Test
     public void saveBasicEntityShouldPersistNonNullValuesToNull() {
 
-        final Date dateValue = new Date();
-        final BasicEntityDTO dto = new BasicEntityDTO();
+        final GregorianCalendar expectedDateValue = new GregorianCalendar();
+        BasicEntityDTO dto = new BasicEntityDTO();
         dto.setBooleanValue(true);
         dto.setCurrencyValue(new BigDecimal("101.01"));
-        dto.setDateValue(dateValue);
+        dto.setDateValue(expectedDateValue.getTime());
         dto.setEnumValue(BasicEnum.SecondValue);
         dto.setStringValue("Original entity");
 
-        final BasicEntityDTO savedDTO = manager.saveBasicEntity(dto);
+        dto = manager.saveBasicEntity(dto);
 
-        Assert.assertNotNull(savedDTO);
+        BasicEntityDTO savedDTO = manager.getBasicEntity(dto.getId());
+
+        Assert.assertNotNull("Entity should be found by id: " + dto, savedDTO);
         Assert.assertNotNull(savedDTO.getId());
         Assert.assertNotNull(savedDTO.getCurrencyValue());
         Assert.assertNotNull(savedDTO.getDateValue());
@@ -41,7 +44,11 @@ public class ManagerTest {
         Assert.assertNotNull(savedDTO.getBooleanValue());
 
         Assert.assertEquals(new BigDecimal("101.01"), savedDTO.getCurrencyValue());
-        Assert.assertEquals(dateValue, savedDTO.getDateValue());
+        final GregorianCalendar savedDateValue = new GregorianCalendar();
+        savedDateValue.setTime(savedDTO.getDateValue());
+        Assert.assertEquals(expectedDateValue.get(Calendar.YEAR), savedDateValue.get(Calendar.YEAR));
+        Assert.assertEquals(expectedDateValue.get(Calendar.MONTH), savedDateValue.get(Calendar.MONTH));
+        Assert.assertEquals(expectedDateValue.get(Calendar.DATE), savedDateValue.get(Calendar.DATE));
         //TODO Assert.assertEquals(BasicEnum.SecondValue.name(), savedDTO.getEnumValue().name());
         Assert.assertEquals(true, savedDTO.getBooleanValue());
 
@@ -51,9 +58,11 @@ public class ManagerTest {
         savedDTO.setEnumValue(null);
         savedDTO.setStringValue(null);
 
-        final BasicEntityDTO nulledDTO = manager.saveBasicEntity(savedDTO);
+        savedDTO = manager.saveBasicEntity(savedDTO);
 
-        Assert.assertNotNull(nulledDTO);
+        final BasicEntityDTO nulledDTO = manager.getBasicEntity(savedDTO.getId());
+
+        Assert.assertNotNull("Updated entity should be found by id: " + savedDTO, nulledDTO);
         Assert.assertNotNull(nulledDTO.getId());
         Assert.assertNull(nulledDTO.getCurrencyValue());
         Assert.assertNull(nulledDTO.getDateValue());

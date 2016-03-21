@@ -32,6 +32,11 @@ public class Manager {
     }
 
     public BasicEntityDTO getBasicEntity(Long id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        BasicEntity entity = entityManager.find(BasicEntity.class, id);
+        if (entity != null) {
+            return new BasicEntityDTO(entity);
+        }
         return null;
     }
 
