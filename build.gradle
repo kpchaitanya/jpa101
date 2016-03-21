@@ -5,6 +5,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.hibernate:hibernate-core:5.1.0.Final'
-	testCompile 'junit:junit:4.12'
+    compile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
+    testCompile 'junit:junit:4.12'
+    runtime 'mysql:mysql-connector-java:5.1.38'
 }

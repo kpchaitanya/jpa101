@@ -2,15 +2,33 @@ package jpa101.entity;
 
 import jpa101.dto.BasicEntityDTO;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Entity
+@Table(name = "BASIC_ENTITY")
 public class BasicEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
+
+    @Column(name = "STRING_VALUE")
     private String stringValue;
+
+    @Column(name = "DATE_VALUE")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateValue;
-    private boolean booleanValue;
+
+    @Column(name = "BOOLEAN_VALUE")
+    private Boolean booleanValue;
+
+    @Column(name = "CURRENCY_VALUE")
     private BigDecimal currencyValue;
+
+    @Transient
+    //@Column(name = "ENUM_VALUE")
     private BasicEnum enumValue;
 
     public BasicEntity() {
@@ -22,7 +40,7 @@ public class BasicEntity {
         this.id = dto.getId();
         this.stringValue = dto.getStringValue();
         this.dateValue = dto.getDateValue();
-        this.booleanValue = dto.isBooleanValue();
+        this.booleanValue = dto.getBooleanValue();
         this.currencyValue = dto.getCurrencyValue();
         this.enumValue = dto.getEnumValue();
     }
@@ -59,11 +77,11 @@ public class BasicEntity {
         this.dateValue = dateValue;
     }
 
-    public boolean isBooleanValue() {
+    public Boolean getBooleanValue() {
         return booleanValue;
     }
 
-    public void setBooleanValue(boolean booleanValue) {
+    public void setBooleanValue(Boolean booleanValue) {
         this.booleanValue = booleanValue;
     }
 

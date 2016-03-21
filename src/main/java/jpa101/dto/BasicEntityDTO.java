@@ -10,7 +10,7 @@ public class BasicEntityDTO {
     private Long id;
     private String stringValue;
     private Date dateValue;
-    private boolean booleanValue;
+    private Boolean booleanValue;
     private BigDecimal currencyValue;
     private BasicEnum enumValue;
 
@@ -23,7 +23,7 @@ public class BasicEntityDTO {
         this.id = entity.getId();
         this.stringValue = entity.getStringValue();
         this.dateValue = entity.getDateValue();
-        this.booleanValue = entity.isBooleanValue();
+        this.booleanValue = entity.getBooleanValue();
         this.currencyValue = entity.getCurrencyValue();
         this.enumValue = entity.getEnumValue();
     }
@@ -61,11 +61,11 @@ public class BasicEntityDTO {
         this.dateValue = dateValue;
     }
 
-    public boolean isBooleanValue() {
+    public Boolean getBooleanValue() {
         return booleanValue;
     }
 
-    public void setBooleanValue(boolean booleanValue) {
+    public void setBooleanValue(Boolean booleanValue) {
         this.booleanValue = booleanValue;
     }
 
