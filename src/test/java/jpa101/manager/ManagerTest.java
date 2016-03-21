@@ -10,14 +10,16 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class ManagerTest {
+public abstract class ManagerTest {
 
     //SUT
     private Manager manager;
 
+    protected abstract String getPersistenceUnitName();
+
     @Before
     public void setUp() {
-        manager = new Manager();
+        manager = new Manager(getPersistenceUnitName());
     }
 
     @Test

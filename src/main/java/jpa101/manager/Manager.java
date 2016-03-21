@@ -9,10 +9,12 @@ import javax.persistence.Persistence;
 
 public class Manager {
 
+    public static final String SCHEMA_NAME = "mydb";
+
     private EntityManagerFactory entityManagerFactory;
 
-    public Manager() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("jpa101");
+    public Manager(String persistenceUnitName) {
+        entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
     }
 
     public BasicEntityDTO saveBasicEntity(BasicEntityDTO dto) {
