@@ -23,8 +23,9 @@ public class Manager {
             entity = entityManager.merge(entity);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
+            e.printStackTrace();
             entityManager.getTransaction().rollback();
-            throw e;
+            throw new RuntimeException(e);
         } finally {
             entityManager.close();
         }
